@@ -29,12 +29,10 @@
 #endif /* ifndef _ENVR_H_ */
 /* Uncomment according to your sensortype. */
 
-
 float temperature;
 float humidity;
 int dclock;
 int oldclock;
-
 
 // Timer Control
 enum tmrPhase intPhase;
@@ -44,9 +42,6 @@ int pause;
 unsigned long pausedFor;
 struct pauseState pState;
 unsigned long tmrMilli;
-struct tmrTemplate defaultIntTimer {
-  4, 7, 180000ul, false, 7000ul, 1000ul, 3000ul, 5000ul, 5000ul
-};
 
 bool suffer;
 // Button IO
@@ -59,7 +54,7 @@ DHT_nonblocking dht_sensor(dhtSensorPin, DHT_SENSOR_TYPE);
  * Initialize the serial port.
  */
 void setup() {
-  tmr = defaultIntTimer;
+  tmr = defaultIntTimer1;
   dclock = 0;
   Serial.begin(9600);
   matrix.begin();
