@@ -10,7 +10,7 @@ void draw_display(bool new_envr, int dclock, int oldclock, struct tmrTemplate tm
       draw_tmr(tmr, prog, intPhase, dclock, matrix);
       draw_envr(temperature, humidity, matrix);
     
-    }  else {
+    } else {
       if (new_envr) {
       	draw_envr(temperature, humidity, matrix);
         new_envr = false;

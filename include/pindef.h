@@ -3,22 +3,21 @@
 #include <Arduino.h>
 #endif /* ifndef _ARDUINO_H_ */
 
-
-static const int matCLK = 11;
-static const int matOE   = 9;
-static const int matLAT = 10;
-static const uint8_t matA   = A0;
-static const uint8_t matB   = A1;
-static const uint8_t matC   = A2;
-static const uint8_t matD   = A3;
-
+const int matCLK = 11;
+const int matOE   = 9;
+const int matLAT = 10;
+const uint8_t matA   = A0;
+const uint8_t matB   = A1;
+const uint8_t matC   = A2;
+const uint8_t matD   = A3;
 
 
 
-static const int dhtSensorPin = 2;
 
-static const int buttonG = 53;
-static const int buttonY = 52;
-static const int buttonR = 51;
+const int dhtSensorPin = 2;
+
+const int buttonG = 53;
+const int buttonY = 52;
+const int buttonR = 51;
 
 
