@@ -35,6 +35,7 @@ struct pauseState {
   unsigned long timeLeft;
 };
 
-unsigned long doIntTimer(struct tmrTemplate *intTimer, struct tmrProg *intProgress, enum tmrPhase *intPhase, bool *sufferingover, int *pause, struct pauseState *pState);
+unsigned long doIntTimer(unsigned long *start, unsigned long *phaseStart, struct tmrTemplate *intTimer, struct tmrProg *intProgress, enum tmrPhase *intPhase, bool *sufferingover, int *pause, struct pauseState *pState);
+
 
 

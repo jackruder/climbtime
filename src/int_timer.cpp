@@ -23,11 +23,9 @@ struct tmrTemplate intervalTimer(int numSets, int numReps, float setRest, bool h
   return tmp;
 }
 
-unsigned long doIntTimer(struct tmrTemplate *intTimer, struct tmrProg *intProgress, enum tmrPhase *intPhase, bool *sufferingover, int *pause, struct pauseState *pState) { 
-  static unsigned long start = millis();
-  static unsigned long phaseStart = start;
-  unsigned long elapsed = millis() - start;
-  unsigned long phaseElapsed = millis() - phaseStart;
+unsigned long doIntTimer(unsigned long *start, unsigned long *phaseStart, struct tmrTemplate *intTimer, struct tmrProg *intProgress, enum tmrPhase *intPhase, bool *sufferingover, int *pause, struct pauseState *pState) { 
+  unsigned long elapsed = millis() - *start;
+  unsigned long phaseElapsed = millis() - *phaseStart;
   
   
   if (*pause == 1) { //pause
@@ -36,8 +34,8 @@ unsigned long doIntTimer(struct tmrTemplate *intTimer, struct tmrProg *intProgre
     *pause = 3; 
   }
   else if (*pause == 2) { //resume
-    start = millis() - pState->elapsed; 
-    phaseStart = millis() - pState->phaseElapsed;
+    *start = millis() - pState->elapsed; 
+    *phaseStart = millis() - pState->phaseElapsed;
     elapsed = pState->elapsed;
     phaseElapsed = pState->phaseElapsed;
     *intPhase = pState->intPhase;
@@ -167,6 +165,6 @@ unsigned long doIntTimer(struct tmrTemplate *intTimer, struct tmrProg *intProgre
       break;
     }
 
-    phaseStart = millis(); //restart start next phase timer
-    return phaseStart; // TODO remove this statement, have each case handle return
+    *phaseStart = millis(); //restart start next phase timer
+    return *phaseStart; // TODO remove this statement, have each case handle return
 }

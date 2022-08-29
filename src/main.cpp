@@ -39,7 +39,7 @@ int dclock;
 int oldclock;
 
 // Timer Control
-enum tmrPhase intPhase;
+enum tmrPhase int_phase;
 struct tmrProg prog;
 struct tmrTemplate tmr;
 int pause;
@@ -48,7 +48,9 @@ struct pauseState pState;
 unsigned long tmrMilli;
 struct tmrTemplate defaultIntTimer {4, 7, 180000ul, false, 7000ul, 1000ul, 3000ul, 5000ul, 5000ul};
 
-bool suffer;
+bool run_int_timer;
+unsigned long start_timer;
+unsigned long phase_start_timer;
 // Button IO
 struct buttonStates bState;
 
@@ -84,12 +86,12 @@ void loop( )
      true, then a measurement is available. */
 
   
-  draw_display(envr_update, dclock, oldclock, tmr, prog, intPhase, temperature, humidity, matrix);
+  draw_display(envr_update, dclock, oldclock, tmr, prog, int_phase, temperature, humidity, matrix);
 
   
-  if (suffer) { // run the interval timer clock
+  if (run_int_timer) { // run the interval timer clock
     oldclock = dclock;
-    tmrMilli = doIntTimer(&tmr, &prog, &intPhase, &suffer, &pause, &pState );
+    tmrMilli = doIntTimer(&start_timer, &phase_start_timer, &tmr, &prog, &int_phase, &run_int_timer, &pause, &pState );
     if (pause == 0) { //running
       if (bState.y == LOW) {
         pause = 1; // pause the time
@@ -101,14 +103,23 @@ void loop( )
       if (bState.g == LOW) {
         pause = 2; //resume the timer
       }
+      if (bState.r == LOW) { //stop
+	run_int_timer = false;
+      }
       pausedFor = tmrMilli;
     }
     
-  } else { // check for start
-    if (bState.g == LOW) {
-      suffer = true;
-      intPhase=TMRPREP;
-    }
+  } 
+  
+  else {
+    oldclock = dclock;
+  }
+
+  if (bState.g == LOW) {
+      run_int_timer = true;
+      int_phase=TMRPREP;
+      start_timer = millis();
+      phase_start_timer = millis();
   }
   
 }
